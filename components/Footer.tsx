@@ -1,29 +1,30 @@
-"use client"
-import { Github, Twitter, Linkedin, Mail } from "lucide-react"
-import { motion } from "framer-motion"
+"use client";
+
+import { Github, Twitter, Linkedin, Mail } from "lucide-react";
+import { motion } from "framer-motion";
 
 type FooterLink = {
-  label: string
-  href: string
-}
+  label: string;
+  href: string;
+};
 
 type FooterSection = {
-  title: string
-  links: FooterLink[]
-}
+  title: string;
+  links: FooterLink[];
+};
 
 type FooterProps = {
-  companyName?: string
-  tagline?: string
-  sections?: FooterSection[]
+  companyName?: string;
+  tagline?: string;
+  sections?: FooterSection[];
   socialLinks?: {
-    twitter?: string
-    linkedin?: string
-    github?: string
-    email?: string
-  }
-  copyrightText?: string
-}
+    twitter?: string;
+    linkedin?: string;
+    github?: string;
+    email?: string;
+  };
+  copyrightText?: string;
+};
 
 const defaultSections: FooterSection[] = [
   {
@@ -53,7 +54,7 @@ const defaultSections: FooterSection[] = [
       { label: "License", href: "#license" },
     ],
   },
-]
+];
 
 export const Footer = ({
   companyName = "Code Comparator",
@@ -67,8 +68,10 @@ export const Footer = ({
   },
   copyrightText,
 }: FooterProps) => {
-  const currentYear = new Date().getFullYear()
-  const copyright = copyrightText || `© ${currentYear} ${companyName}. All rights reserved.`
+  const currentYear = new Date().getFullYear();
+  const copyright =
+    copyrightText || `© ${currentYear} ${companyName}. All rights reserved.`;
+
   return (
     <footer className="w-full bg-slate-900 border-t border-slate-800">
       <div className="max-w-[1200px] mx-auto px-8 py-16">
@@ -88,7 +91,10 @@ export const Footer = ({
               >
                 {companyName}
               </h3>
-              <p className="text-sm leading-5 text-slate-400 max-w-xs" style={{ fontFamily: "Figtree" }}>
+              <p
+                className="text-sm leading-5 text-slate-400 max-w-xs"
+                style={{ fontFamily: "Figtree" }}
+              >
                 {tagline}
               </p>
             </div>
@@ -141,7 +147,11 @@ export const Footer = ({
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: index * 0.1, ease: "easeOut" }}
+              transition={{
+                duration: 0.5,
+                delay: index * 0.1,
+                ease: "easeOut",
+              }}
               className="col-span-1"
             >
               <h4
@@ -199,5 +209,5 @@ export const Footer = ({
         </motion.div>
       </div>
     </footer>
-  )
-}
+  );
+};
