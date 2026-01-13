@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Menu, X } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { useTheme } from "next-themes"
+import Image from "next/image"
 
 const navigationLinks = [
   {
@@ -29,13 +31,16 @@ const navigationLinks = [
 export const PortfolioNavbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const pathname = usePathname()
+  const { theme } = useTheme()
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20)
     }
     window.addEventListener("scroll", handleScroll)
+    setMounted(true)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
@@ -68,19 +73,17 @@ export const PortfolioNavbar = () => {
           <div className="flex-shrink-0">
             <Link
               href="/"
-              className="text-xl sm:text-2xl font-bold text-foreground hover:text-primary transition-colors duration-200"
-              style={{
-                fontFamily: "Plus Jakarta Sans, sans-serif",
-              }}
+              className="hover:opacity-80 transition-opacity duration-200"
             >
-              <span
-                style={{
-                  fontFamily: "Figtree",
-                  fontWeight: "800",
-                }}
-              >
-                Code Comparator
-              </span>
+              {mounted && (
+                <Image
+                  src={theme === "dark" ? "/logo-dark.png" : "/logo-light.png"}
+                  alt="Invisible Characters"
+                  width={40}
+                  height={40}
+                  className="w-10 h-10 sm:w-12 sm:h-12"
+                />
+              )}
             </Link>
           </div>
 
