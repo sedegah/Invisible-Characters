@@ -74,10 +74,11 @@ export const PortfolioNavbar = () => {
               {mounted && (
                 <Image
                   src={theme === "dark" ? "/logo-dark.png" : "/logo-light.png"}
-                  alt="Invisible Characters"
-                  width={40}
-                  height={40}
-                  className="w-10 h-10 sm:w-12 sm:h-12"
+                  alt="Invisible Characters Logo"
+                  width={48}
+                  height={48}
+                  priority
+                  className="w-10 h-10 sm:w-12 sm:h-12 object-contain"
                 />
               )}
             </Link>
