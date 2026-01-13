@@ -210,6 +210,86 @@ export default function UnicodeScannerContent() {
               />
             </div>
 
+            {/* Highlighted Text with Markers */}
+            {highlightedText && (
+              <div className="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-6">
+                <label className="block text-sm font-semibold text-slate-200 mb-3">Text with Suspicious Character Markers (⦿)</label>
+                <div className="w-full min-h-24 max-h-40 bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-3 text-white font-mono text-sm overflow-y-auto whitespace-pre-wrap break-words">
+                  {highlightedText}
+                </div>
+                <p className="text-xs text-slate-400 mt-2">⦿ marks invisible or suspicious characters</p>
+              </div>
+            )}
+
+            {/* Detected Suspicious Characters */}
+            {detectedInvisible.length > 0 && (
+              <div className="bg-red-500/10 backdrop-blur border border-red-500/30 rounded-xl p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <div>
+                    <h2 className="text-lg font-semibold text-red-400">⚠️ Suspicious Characters Detected</h2>
+                    <p className="text-sm text-red-300/80 mt-1">{detectedInvisible.length} invisible/suspicious character(s) found</p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-64 overflow-y-auto">
+                  {detectedInvisible.map((char, idx) => {
+                    const isZeroWidth = char.codePoint === 0x200b
+                    const isZeroWidthJoiner = char.codePoint === 0x200d
+                    const isZeroWidthNonJoiner = char.codePoint === 0x200c
+                    
+                    return (
+                      <div
+                        key={idx}
+                        className={`p-3 rounded-lg border ${
+                          isZeroWidth || isZeroWidthJoiner || isZeroWidthNonJoiner
+                            ? "bg-orange-500/20 border-orange-500/50"
+                            : "bg-slate-700/30 border-slate-600/50"
+                        }`}
+                      >
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="font-semibold text-white text-sm">{char.name}</span>
+                          {(isZeroWidth || isZeroWidthJoiner || isZeroWidthNonJoiner) && (
+                            <span className="text-xs bg-orange-500/50 text-orange-200 px-2 py-1 rounded">Zero-Width</span>
+                          )}
+                        </div>
+                        <div className="text-xs text-slate-400 space-y-0.5">
+                          <div>Code Point: U+{char.codePoint.toString(16).toUpperCase().padStart(4, "0")}</div>
+                          <div>Decimal: {char.codePoint}</div>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+
+                <div className="mt-4 p-3 bg-slate-900/50 rounded-lg border border-slate-700/50">
+                  <p className="text-xs text-slate-300">
+                    <span className="font-semibold">ℹ️ Info:</span> These characters are invisible or have special formatting properties and can cause issues in code or text. Use "Cleaned Text" to remove them.
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Cleaned Text Output */}
+            {cleanedText && detectedInvisible.length > 0 && (
+              <div className="bg-green-500/10 backdrop-blur border border-green-500/30 rounded-xl p-6">
+                <label className="block text-sm font-semibold text-green-400 mb-3">✓ Cleaned Text (Suspicious Characters Removed)</label>
+                <div className="w-full min-h-24 max-h-40 bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-3 text-white font-mono text-sm overflow-y-auto whitespace-pre-wrap break-words mb-3">
+                  {cleanedText}
+                </div>
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText(cleanedText)
+                    setCopied(true)
+                    setTimeout(() => setCopied(false), 2000)
+                  }}
+                  className="flex items-center gap-2 px-4 py-2 bg-green-600/20 hover:bg-green-600/30 text-green-400 rounded-lg transition-colors font-semibold"
+                >
+                  <Copy size={16} />
+                  {copied ? "Copied!" : "Copy Cleaned Text"}
+                </button>
+              </div>
+            )}
+
             {/* Search Results */}
             <div className="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-xl p-6">
               <div className="flex items-center justify-between mb-4">
