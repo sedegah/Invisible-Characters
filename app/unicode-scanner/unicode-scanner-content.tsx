@@ -202,8 +202,15 @@ export default function UnicodeScannerContent() {
               <textarea
                 value={inputText}
                 onChange={(e) => {
-                  setInputText(e.target.value)
-                  analyzeText(e.target.value)
+                  const value = e.target.value
+                  setInputText(value)
+                  analyzeText(value)
+                }}
+                onPaste={(e) => {
+                  e.preventDefault()
+                  const pastedText = e.clipboardData.getData("text")
+                  setInputText(pastedText)
+                  analyzeText(pastedText)
                 }}
                 placeholder="Paste or type any text here..."
                 className="w-full h-32 bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/30 resize-none"
@@ -301,6 +308,10 @@ export default function UnicodeScannerContent() {
                       setCharacters([])
                       setSelectedChar(null)
                       setSearchQuery("")
+                      setDetectedInvisible([])
+                      setHighlightedText("")
+                      setCleanedText("")
+                      setCopied(false)
                     }}
                     className="flex items-center gap-2 px-3 py-1.5 bg-slate-700/50 hover:bg-slate-600/50 text-slate-300 hover:text-white rounded-lg transition-colors"
                   >
