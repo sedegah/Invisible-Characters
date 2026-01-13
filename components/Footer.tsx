@@ -39,7 +39,7 @@ const defaultSections: FooterSection[] = [
   {
     title: "Resources",
     links: [
-      { label: "GitHub", href: "https://github.com" },
+      { label: "GitHub", href: "https://github.com/sedegah" },
       { label: "Blog", href: "#blog" },
       { label: "Community", href: "#community" },
       { label: "Contact", href: "#contact" },
@@ -62,9 +62,9 @@ export const Footer = ({
   sections = defaultSections,
   socialLinks = {
     twitter: "https://twitter.com",
-    linkedin: "https://linkedin.com",
-    github: "https://github.com",
-    email: "hello@codecomparator.dev",
+    linkedin: "https://www.linkedin.com/in/kimathi-sedegah/",
+    github: "https://github.com/sedegah",
+    email: "sedegahkim@gmail.com",
   },
   copyrightText,
 }: FooterProps) => {
@@ -73,7 +73,7 @@ export const Footer = ({
     copyrightText || `© ${currentYear} ${companyName}. All rights reserved.`;
 
   return (
-    <footer className="w-full bg-slate-900 border-t border-slate-800">
+    <footer className="w-full bg-background border-t border-border">
       <div className="max-w-[1200px] mx-auto px-8 py-16">
         <div className="grid grid-cols-2 md:grid-cols-6 gap-8 mb-12">
           {/* Brand Column */}
@@ -86,13 +86,13 @@ export const Footer = ({
           >
             <div className="mb-4">
               <h3
-                className="text-2xl font-semibold text-white mb-2"
+                className="text-2xl font-semibold text-foreground mb-2"
                 style={{ fontFamily: "Figtree", fontWeight: "500" }}
               >
                 {companyName}
               </h3>
               <p
-                className="text-sm leading-5 text-slate-400 max-w-xs"
+                className="text-sm leading-5 text-foreground/60 max-w-xs"
                 style={{ fontFamily: "Figtree" }}
               >
                 {tagline}
@@ -104,7 +104,7 @@ export const Footer = ({
               {socialLinks.twitter && (
                 <a
                   href={socialLinks.twitter}
-                  className="w-9 h-9 flex items-center justify-center rounded-full bg-slate-800 border border-slate-700 text-slate-400 hover:text-cyan-400 hover:border-cyan-400 transition-colors duration-150"
+                  className="w-9 h-9 flex items-center justify-center rounded-full bg-muted border border-border text-foreground/60 hover:text-primary hover:border-primary transition-colors duration-150"
                   aria-label="Twitter"
                 >
                   <Twitter className="w-4 h-4" />
@@ -113,7 +113,7 @@ export const Footer = ({
               {socialLinks.linkedin && (
                 <a
                   href={socialLinks.linkedin}
-                  className="w-9 h-9 flex items-center justify-center rounded-full bg-slate-800 border border-slate-700 text-slate-400 hover:text-cyan-400 hover:border-cyan-400 transition-colors duration-150"
+                  className="w-9 h-9 flex items-center justify-center rounded-full bg-muted border border-border text-foreground/60 hover:text-primary hover:border-primary transition-colors duration-150"
                   aria-label="LinkedIn"
                 >
                   <Linkedin className="w-4 h-4" />
@@ -122,7 +122,7 @@ export const Footer = ({
               {socialLinks.github && (
                 <a
                   href={socialLinks.github}
-                  className="w-9 h-9 flex items-center justify-center rounded-full bg-slate-800 border border-slate-700 text-slate-400 hover:text-cyan-400 hover:border-cyan-400 transition-colors duration-150"
+                  className="w-9 h-9 flex items-center justify-center rounded-full bg-muted border border-border text-foreground/60 hover:text-primary hover:border-primary transition-colors duration-150"
                   aria-label="GitHub"
                 >
                   <Github className="w-4 h-4" />
@@ -131,7 +131,7 @@ export const Footer = ({
               {socialLinks.email && (
                 <a
                   href={`mailto:${socialLinks.email}`}
-                  className="w-9 h-9 flex items-center justify-center rounded-full bg-slate-800 border border-slate-700 text-slate-400 hover:text-cyan-400 hover:border-cyan-400 transition-colors duration-150"
+                  className="w-9 h-9 flex items-center justify-center rounded-full bg-muted border border-border text-foreground/60 hover:text-primary hover:border-primary transition-colors duration-150"
                   aria-label="Email"
                 >
                   <Mail className="w-4 h-4" />

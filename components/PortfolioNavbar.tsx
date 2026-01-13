@@ -122,7 +122,7 @@ export const PortfolioNavbar = () => {
           <div className="hidden md:block">
             <Link
               href="/code-comparator"
-              className="bg-[#156d95] text-white px-[18px] rounded-full text-base font-semibold hover:bg-[#156d95]/90 transition-all duration-200 hover:rounded-2xl shadow-sm hover:shadow-md whitespace-nowrap leading-4 py-[15px]"
+              className="bg-primary text-primary-foreground px-[18px] rounded-full text-base font-semibold hover:bg-primary/90 transition-all duration-200 hover:rounded-2xl shadow-sm hover:shadow-md whitespace-nowrap leading-4 py-[15px]"
               style={{
                 fontFamily: "Plus Jakarta Sans, sans-serif",
               }}
@@ -203,7 +203,7 @@ export const PortfolioNavbar = () => {
               <div className="pt-4 border-t border-border">
                 <Link
                   href="/code-comparator"
-                  className="w-full block bg-[#156d95] text-white px-[18px] py-[15px] rounded-full text-base font-semibold hover:bg-[#156d95]/90 transition-all duration-200 text-center"
+                  className="w-full block bg-primary text-primary-foreground px-[18px] py-[15px] rounded-full text-base font-semibold hover:bg-primary/90 transition-all duration-200 text-center"
                   style={{
                     fontFamily: "Plus Jakarta Sans, sans-serif",
                   }}
