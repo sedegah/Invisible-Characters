@@ -18,10 +18,6 @@ const navigationLinks = [
     href: "/unicode-scanner",
   },
   {
-    name: "Code Comparator",
-    href: "/code-comparator",
-  },
-  {
     name: "Docs",
     href: "/docs",
   },
@@ -122,24 +118,7 @@ export const PortfolioNavbar = () => {
             </div>
           </div>
 
-          <div className="hidden md:block">
-            <Link
-              href="/code-comparator"
-              className="bg-primary text-primary-foreground px-[18px] rounded-full text-base font-semibold hover:bg-primary/90 transition-all duration-200 hover:rounded-2xl shadow-sm hover:shadow-md whitespace-nowrap leading-4 py-[15px]"
-              style={{
-                fontFamily: "Plus Jakarta Sans, sans-serif",
-              }}
-            >
-              <span
-                style={{
-                  fontFamily: "Figtree",
-                  fontWeight: "500",
-                }}
-              >
-                Try Now
-              </span>
-            </Link>
-          </div>
+          {/* CTA removed per request to remove Code Comparator */}
 
           <div className="md:hidden">
             <button
@@ -203,17 +182,7 @@ export const PortfolioNavbar = () => {
                   </Link>
                 )
               })}
-              <div className="pt-4 border-t border-border">
-                <Link
-                  href="/code-comparator"
-                  className="w-full block bg-primary text-primary-foreground px-[18px] py-[15px] rounded-full text-base font-semibold hover:bg-primary/90 transition-all duration-200 text-center"
-                  style={{
-                    fontFamily: "Plus Jakarta Sans, sans-serif",
-                  }}
-                >
-                  <span>Try Now</span>
-                </Link>
-              </div>
+              {/* Mobile CTA removed per request */}
             </div>
           </motion.div>
         )}
