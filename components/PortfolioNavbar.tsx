@@ -21,7 +21,7 @@ const navigationLinks = [
   },
   {
     name: "Docs",
-    href: "#docs",
+    href: "/docs",
   },
 ] as any[]
 
