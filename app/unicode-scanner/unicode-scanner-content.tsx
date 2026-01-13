@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { Copy, Download, Search, RotateCcw } from "lucide-react"
 import { PortfolioNavbar } from "@/components/PortfolioNavbar"
+import { detectInvisibleCharacters, getCharacterDetails, generateHighlightedText, type DetectedChar } from "@/lib/unicode-engine"
 
 interface UnicodeInfo {
   char: string
@@ -20,6 +21,9 @@ export default function UnicodeScannerContent() {
   const [selectedChar, setSelectedChar] = useState<UnicodeInfo | null>(null)
   const [history, setHistory] = useState<string[]>([])
   const [copied, setCopied] = useState(false)
+  const [detectedInvisible, setDetectedInvisible] = useState<DetectedChar[]>([])
+  const [highlightedText, setHighlightedText] = useState("")
+  const [cleanedText, setCleanedText] = useState("")
 
   // Load history from localStorage
   useEffect(() => {
@@ -37,11 +41,21 @@ export default function UnicodeScannerContent() {
   const analyzeText = (text: string) => {
     if (!text) {
       setCharacters([])
+      setDetectedInvisible([])
+      setHighlightedText("")
+      setCleanedText("")
       return
     }
 
     saveToHistory(text)
 
+    // Detect invisible characters using the engine
+    const { characters: invisible, cleanedText: cleaned } = detectInvisibleCharacters(text)
+    setDetectedInvisible(invisible)
+    setCleanedText(cleaned)
+    setHighlightedText(generateHighlightedText(text, invisible))
+
+    // Get all character details
     const analyzed: UnicodeInfo[] = []
     const seen = new Set<number>()
 

@@ -1,4 +1,4 @@
-interface LanguageDetectionResult {
+export interface LanguageDetectionResult {
   language: string;
   confidence: number;
   details: {
@@ -11,7 +11,9 @@ interface LanguageDetectionResult {
   };
 }
 
-// Corrected regexes
+/* ------------------------------------
+   Local fallback regex-based detection
+------------------------------------ */
 const languagePatterns = {
   python: {
     regexes: [/\bdef\s+\w+\(/, /\bself\b/, /:\s*$/, /\bprint\s*\(/],
@@ -26,13 +28,6 @@ const languagePatterns = {
     category: "interpreted" as const,
     popularity: 98,
     uniqueFeatures: ["Arrow functions", "Prototype-based OOP", "Event-driven"],
-  },
-  typescript: {
-    regexes: [/:\s*(string|number|boolean|any|unknown|void|interface|type)/],
-    extensions: [".ts", ".tsx"],
-    category: "interpreted" as const,
-    popularity: 92,
-    uniqueFeatures: ["Static typing", "Interfaces", "Type annotations"],
   },
   cpp: {
     regexes: [/#include\s*</, /\bstd::\b/, /\bcout\s*<</],
@@ -54,20 +49,6 @@ const languagePatterns = {
     category: "compiled" as const,
     popularity: 96,
     uniqueFeatures: ["Class-based OOP", "JVM runtime", "Static typing"],
-  },
-  rust: {
-    regexes: [/\bfn\s+\w+\s*\(/, /\bmut\b/, /\b->\s*\w+/, /\bunwrap\(/],
-    extensions: [".rs"],
-    category: "compiled" as const,
-    popularity: 88,
-    uniqueFeatures: ["Memory safety", "Ownership system", "Zero-cost abstractions"],
-  },
-  go: {
-    regexes: [/\bfunc\s+\w+\(/, /\berr\s*!=\s*nil\b/, /\bpackage\s+\w+/],
-    extensions: [".go"],
-    category: "compiled" as const,
-    popularity: 85,
-    uniqueFeatures: ["Goroutines", "Interfaces", "Built-in concurrency"],
   },
   html: {
     regexes: [/<\/?[a-z][\s\S]*?>/i, /<!DOCTYPE\s+html>/i],
@@ -92,13 +73,20 @@ const languagePatterns = {
   },
 };
 
-// Detection function
-export const detectLanguage = (code: string): LanguageDetectionResult => {
-  if (!code) return {
-    language: "unknown",
-    confidence: 0,
-    details: { patternsMatched: [], fileExtensions: [], uniqueFeatures: [], category: "scripting", popularity: 0 }
-  };
+export const detectLanguageLocal = (code: string): LanguageDetectionResult => {
+  if (!code) {
+    return {
+      language: "unknown",
+      confidence: 0,
+      details: {
+        patternsMatched: [],
+        fileExtensions: [],
+        uniqueFeatures: [],
+        category: "scripting",
+        popularity: 0,
+      },
+    };
+  }
 
   const shebangMatch = code.match(/^#!\s*(?:\/usr\/bin\/env\s+)?(\w+)/);
   const shebangLang = shebangMatch?.[1];
@@ -106,7 +94,13 @@ export const detectLanguage = (code: string): LanguageDetectionResult => {
   let bestMatch: LanguageDetectionResult = {
     language: "unknown",
     confidence: 0,
-    details: { patternsMatched: [], fileExtensions: [], uniqueFeatures: [], category: "scripting", popularity: 0 },
+    details: {
+      patternsMatched: [],
+      fileExtensions: [],
+      uniqueFeatures: [],
+      category: "scripting",
+      popularity: 0,
+    },
   };
 
   for (const [lang, config] of Object.entries(languagePatterns)) {
@@ -139,28 +133,67 @@ export const detectLanguage = (code: string): LanguageDetectionResult => {
     }
   }
 
-  return bestMatch.confidence < 0.3 ? {
-    language: "unknown",
-    confidence: 0,
-    details: { patternsMatched: [], fileExtensions: [], uniqueFeatures: [], category: "scripting", popularity: 0 }
-  } : bestMatch;
+  return bestMatch.confidence < 0.3
+    ? {
+        language: "unknown",
+        confidence: 0,
+        details: {
+          patternsMatched: [],
+          fileExtensions: [],
+          uniqueFeatures: [],
+          category: "scripting",
+          popularity: 0,
+        },
+      }
+    : bestMatch;
 };
 
-// Line-by-line comparison
+/* ------------------------------------
+   LLM-based Groq detection + fallback
+------------------------------------ */
+export const detectLanguageLLM = async (code: string): Promise<LanguageDetectionResult> => {
+  if (!code.trim()) return detectLanguageLocal(code);
+
+  try {
+    const res = await fetch("/api/detect", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ code }),
+    });
+
+    if (!res.ok) throw new Error("LLM API failed");
+    const data = await res.json();
+
+    return {
+      language: data.language || "unknown",
+      confidence: data.confidence || 0.7,
+      details: {
+        patternsMatched: [],
+        fileExtensions: [],
+        uniqueFeatures: [],
+        category: data.category || "scripting",
+        popularity: 0,
+      },
+    };
+  } catch (e) {
+    console.warn("Groq API fallback to local:", e);
+    return detectLanguageLocal(code);
+  }
+};
+
+/* ------------------------------------
+   Line-by-line comparison
+------------------------------------ */
 export const compareCode = (code1: string, code2: string) => {
   const lines1 = code1.split("\n");
   const lines2 = code2.split("\n");
-  const diffs: Array<{ lineNum: number; type: "added" | "removed" | "modified"; line1: string; line2: string }> = [];
+  const diffs: string[] = [];
 
   const max = Math.max(lines1.length, lines2.length);
   for (let i = 0; i < max; i++) {
     const a = lines1[i] || "";
     const b = lines2[i] || "";
-    if (a !== b) {
-      if (i >= lines1.length) diffs.push({ lineNum: i+1, type: "added", line1: "", line2: b });
-      else if (i >= lines2.length) diffs.push({ lineNum: i+1, type: "removed", line1: a, line2: "" });
-      else diffs.push({ lineNum: i+1, type: "modified", line1: a, line2: b });
-    }
+    if (a !== b) diffs.push(`Line ${i + 1}: "${a}" vs "${b}"`);
   }
 
   return diffs;

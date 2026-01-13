@@ -1,46 +1,51 @@
-// Unicode character detection engine
-// Detects invisible and suspicious Unicode characters in text
+/* ------------------------------------
+   Unicode character detection engine
+   Detects invisible and suspicious Unicode characters
+------------------------------------ */
 
-interface DetectedChar {
+export interface DetectedChar {
   char: string
   codePoint: number
   name: string
 }
 
 const invisibleMap: Record<number, string> = {
-  0: "NULL (␀)",
-  9: "TAB (→)",
-  10: "LINE FEED (↵)",
-  13: "CARRIAGE RETURN (⏎)",
-  160: "NON-BREAKING SPACE (NBSP)",
-  173: "SOFT HYPHEN (SHY)",
-  8203: "ZERO WIDTH SPACE (ZWSP)",
-  8204: "ZERO WIDTH NON-JOINER (ZWNJ)",
-  8205: "ZERO WIDTH JOINER (ZWJ)",
-  8206: "LEFT-TO-RIGHT MARK (LRM)",
-  8207: "RIGHT-TO-LEFT MARK (RLM)",
-  8232: "LINE SEPARATOR (LS)",
-  8233: "PARAGRAPH SEPARATOR (¶)",
-  8234: "LEFT-TO-RIGHT EMBEDDING (LRE)",
-  8235: "RIGHT-TO-LEFT EMBEDDING (RLE)",
-  8236: "POP DIRECTIONAL FORMATTING (PDF)",
-  8237: "LEFT-TO-RIGHT OVERRIDE (LRO)",
-  8238: "RIGHT-TO-LEFT OVERRIDE (RLO)",
-  8239: "NARROW NO-BREAK SPACE (NNBSP)",
-  8287: "MEDIUM MATHEMATICAL SPACE (MMSP)",
-  8288: "WORD JOINER (WJ)",
-  8289: "FUNCTION APPLICATION (FA)",
-  8290: "INVISIBLE TIMES (IT)",
-  8291: "INVISIBLE SEPARATOR (IS)",
-  8292: "INVISIBLE PLUS (IP)",
-  8294: "LEFT-TO-RIGHT ISOLATE (LRI)",
-  8295: "RIGHT-TO-LEFT ISOLATE (RLI)",
-  8296: "FIRST STRONG ISOLATE (FSI)",
-  8297: "POP DIRECTIONAL ISOLATE (PDI)",
-  12288: "IDEOGRAPHIC SPACE (IDSP)",
-  65279: "BYTE ORDER MARK (BOM)",
+  0x0000: "NULL (␀)",
+  0x0009: "TAB (→)",
+  0x000a: "LINE FEED (↵)",
+  0x000d: "CARRIAGE RETURN (⏎)",
+  0x00a0: "NON-BREAKING SPACE (NBSP)",
+  0x00ad: "SOFT HYPHEN (SHY)",
+  0x200b: "ZERO WIDTH SPACE (ZWSP)",
+  0x200c: "ZERO WIDTH NON-JOINER (ZWNJ)",
+  0x200d: "ZERO WIDTH JOINER (ZWJ)",
+  0x200e: "LEFT-TO-RIGHT MARK (LRM)",
+  0x200f: "RIGHT-TO-LEFT MARK (RLM)",
+  0x2028: "LINE SEPARATOR (LS)",
+  0x2029: "PARAGRAPH SEPARATOR (¶)",
+  0x202a: "LEFT-TO-RIGHT EMBEDDING (LRE)",
+  0x202b: "RIGHT-TO-LEFT EMBEDDING (RLE)",
+  0x202c: "POP DIRECTIONAL FORMATTING (PDF)",
+  0x202d: "LEFT-TO-RIGHT OVERRIDE (LRO)",
+  0x202e: "RIGHT-TO-LEFT OVERRIDE (RLO)",
+  0x202f: "NARROW NO-BREAK SPACE (NNBSP)",
+  0x205f: "MEDIUM MATHEMATICAL SPACE (MMSP)",
+  0x2060: "WORD JOINER (WJ)",
+  0x2061: "FUNCTION APPLICATION (FA)",
+  0x2062: "INVISIBLE TIMES (IT)",
+  0x2063: "INVISIBLE SEPARATOR (IS)",
+  0x2064: "INVISIBLE PLUS (IP)",
+  0x2066: "LEFT-TO-RIGHT ISOLATE (LRI)",
+  0x2067: "RIGHT-TO-LEFT ISOLATE (RLI)",
+  0x2068: "FIRST STRONG ISOLATE (FSI)",
+  0x2069: "POP DIRECTIONAL ISOLATE (PDI)",
+  0x3000: "IDEOGRAPHIC SPACE (IDSP)",
+  0xfeff: "BYTE ORDER MARK (BOM)",
 }
 
+/* ------------------------------------
+   Main detection function
+------------------------------------ */
 export const detectInvisibleCharacters = (text: string) => {
   const characters: DetectedChar[] = []
   const indicesToRemove = new Set<number>()
@@ -64,6 +69,9 @@ export const detectInvisibleCharacters = (text: string) => {
   return { characters, cleanedText }
 }
 
+/* ------------------------------------
+   Get detailed information about characters
+------------------------------------ */
 export const getCharacterDetails = (text: string) => {
   const characters: Array<{
     index: number
@@ -95,4 +103,19 @@ export const getCharacterDetails = (text: string) => {
   }
 
   return characters
+}
+
+/* ------------------------------------
+   Generate highlighted text with markers
+------------------------------------ */
+export const generateHighlightedText = (text: string, detectedChars: DetectedChar[]): string => {
+  let highlighted = ""
+  for (let i = 0; i < text.length; i++) {
+    const codePoint = text.codePointAt(i)!
+    const charCount = codePoint > 0xffff ? 2 : 1
+    const chars = text.slice(i, i + charCount)
+    highlighted += detectedChars.find((c) => c.char === chars) ? "⦿" : chars
+    i += charCount - 1
+  }
+  return highlighted
 }

@@ -22,11 +22,11 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "v0 App",
-  description: "Created with v0",
-  generator: "v0.app",
+  title: "Invisible Characters",
+  description: "Detect and remove invisible Unicode characters from your text",
   icons: {
     icon: "/icon.svg",
+    apple: "/apple-icon.png",
   },
 }
 
