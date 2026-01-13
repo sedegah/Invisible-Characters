@@ -27,8 +27,8 @@ export const metadata: Metadata = {
   title: "Invisible Characters",
   description: "Detect and remove invisible Unicode characters from your text",
   icons: {
-    icon: "/icon.svg",
-    apple: "/apple-icon.png",
+    icon: "/favicon.png",
+    apple: "/favicon.png",
   },
 }
 
