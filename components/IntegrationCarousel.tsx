@@ -1,128 +1,56 @@
-"use client"
+"use client";
 
-import { useEffect, useRef } from "react"
-import { motion } from "framer-motion"
+import { useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 
 type IntegrationApp = {
-  name: string
-  logo: string
-}
+  name: string;
+  logo: string;
+};
 
 type Language = {
-  name: string
-  icon: string
-}
+  name: string;
+  icon: string;
+};
 
 type IntegrationCarouselProps = {
-  buttonText?: string
-  buttonHref?: string
-  title?: string
-  subtitle?: string
-  topRowApps?: IntegrationApp[]
-  bottomRowApps?: IntegrationApp[]
-}
+  buttonText?: string;
+  buttonHref?: string;
+  title?: string;
+  subtitle?: string;
+  topRowApps?: IntegrationApp[];
+  bottomRowApps?: IntegrationApp[];
+};
 
 const defaultTopRowApps: IntegrationApp[] = [
-  {
-    name: "Integration 1",
-    logo: "/images/logoipsum-389.png",
-  },
-  {
-    name: "Integration 2",
-    logo: "/images/logoipsum-407.png",
-  },
-  {
-    name: "Integration 3",
-    logo: "/images/logoipsum-379.png",
-  },
-  {
-    name: "Integration 4",
-    logo: "/images/logoipsum-374.png",
-  },
-  {
-    name: "Integration 5",
-    logo: "/images/logoipsum-381.png",
-  },
-  {
-    name: "Integration 6",
-    logo: "/images/logoipsum-401.png",
-  },
-  {
-    name: "Integration 7",
-    logo: "/images/logoipsum-403.png",
-  },
-  {
-    name: "Integration 1",
-    logo: "/images/logoipsum-389.png",
-  },
-  {
-    name: "Integration 2",
-    logo: "/images/logoipsum-407.png",
-  },
-  {
-    name: "Integration 3",
-    logo: "/images/logoipsum-379.png",
-  },
-  {
-    name: "Integration 4",
-    logo: "/images/logoipsum-374.png",
-  },
-  {
-    name: "Integration 5",
-    logo: "/images/logoipsum-381.png",
-  },
-]
+  { name: "Integration 1", logo: "/images/logoipsum-389.png" },
+  { name: "Integration 2", logo: "/images/logoipsum-407.png" },
+  { name: "Integration 3", logo: "/images/logoipsum-379.png" },
+  { name: "Integration 4", logo: "/images/logoipsum-374.png" },
+  { name: "Integration 5", logo: "/images/logoipsum-381.png" },
+  { name: "Integration 6", logo: "/images/logoipsum-401.png" },
+  { name: "Integration 7", logo: "/images/logoipsum-403.png" },
+  { name: "Integration 1", logo: "/images/logoipsum-389.png" },
+  { name: "Integration 2", logo: "/images/logoipsum-407.png" },
+  { name: "Integration 3", logo: "/images/logoipsum-379.png" },
+  { name: "Integration 4", logo: "/images/logoipsum-374.png" },
+  { name: "Integration 5", logo: "/images/logoipsum-381.png" },
+];
 
 const defaultBottomRowApps: IntegrationApp[] = [
-  {
-    name: "Integration 6",
-    logo: "/images/logoipsum-401.png",
-  },
-  {
-    name: "Integration 7",
-    logo: "/images/logoipsum-403.png",
-  },
-  {
-    name: "Integration 1",
-    logo: "/images/logoipsum-389.png",
-  },
-  {
-    name: "Integration 2",
-    logo: "/images/logoipsum-407.png",
-  },
-  {
-    name: "Integration 3",
-    logo: "/images/logoipsum-379.png",
-  },
-  {
-    name: "Integration 4",
-    logo: "/images/logoipsum-374.png",
-  },
-  {
-    name: "Integration 5",
-    logo: "/images/logoipsum-381.png",
-  },
-  {
-    name: "Integration 6",
-    logo: "/images/logoipsum-401.png",
-  },
-  {
-    name: "Integration 7",
-    logo: "/images/logoipsum-403.png",
-  },
-  {
-    name: "Integration 1",
-    logo: "/images/logoipsum-389.png",
-  },
-  {
-    name: "Integration 2",
-    logo: "/images/logoipsum-407.png",
-  },
-  {
-    name: "Integration 3",
-    logo: "/images/logoipsum-379.png",
-  },
-]
+  { name: "Integration 6", logo: "/images/logoipsum-401.png" },
+  { name: "Integration 7", logo: "/images/logoipsum-403.png" },
+  { name: "Integration 1", logo: "/images/logoipsum-389.png" },
+  { name: "Integration 2", logo: "/images/logoipsum-407.png" },
+  { name: "Integration 3", logo: "/images/logoipsum-379.png" },
+  { name: "Integration 4", logo: "/images/logoipsum-374.png" },
+  { name: "Integration 5", logo: "/images/logoipsum-381.png" },
+  { name: "Integration 6", logo: "/images/logoipsum-401.png" },
+  { name: "Integration 7", logo: "/images/logoipsum-403.png" },
+  { name: "Integration 1", logo: "/images/logoipsum-389.png" },
+  { name: "Integration 2", logo: "/images/logoipsum-407.png" },
+  { name: "Integration 3", logo: "/images/logoipsum-379.png" },
+];
 
 const languages: Language[] = [
   { name: "Python", icon: "🐍" },
@@ -135,9 +63,8 @@ const languages: Language[] = [
   { name: "C#", icon: "🟣" },
   { name: "PHP", icon: "🐘" },
   { name: "Ruby", icon: "💎" },
-]
+];
 
-// @component: IntegrationCarousel
 export const IntegrationCarousel = ({
   buttonText = "Explore Integrations",
   buttonHref = "#",
@@ -146,40 +73,41 @@ export const IntegrationCarousel = ({
   topRowApps = defaultTopRowApps,
   bottomRowApps = defaultBottomRowApps,
 }: IntegrationCarouselProps) => {
-  const topRowRef = useRef<HTMLDivElement>(null)
-  const bottomRowRef = useRef<HTMLDivElement>(null)
+  const topRowRef = useRef<HTMLDivElement>(null);
+  const bottomRowRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
-    let topAnimationId: number
-    let bottomAnimationId: number
-    let topPosition = 0
-    let bottomPosition = 0
+    let topAnimationId: number;
+    let bottomAnimationId: number;
+    let topPosition = 0;
+    let bottomPosition = 0;
+
     const animateTopRow = () => {
       if (topRowRef.current) {
-        topPosition -= 0.5
-        if (Math.abs(topPosition) >= topRowRef.current.scrollWidth / 2) {
-          topPosition = 0
-        }
-        topRowRef.current.style.transform = `translateX(${topPosition}px)`
+        topPosition -= 0.5;
+        if (Math.abs(topPosition) >= topRowRef.current.scrollWidth / 2) topPosition = 0;
+        topRowRef.current.style.transform = `translateX(${topPosition}px)`;
       }
-      topAnimationId = requestAnimationFrame(animateTopRow)
-    }
+      topAnimationId = requestAnimationFrame(animateTopRow);
+    };
+
     const animateBottomRow = () => {
       if (bottomRowRef.current) {
-        bottomPosition -= 0.65
-        if (Math.abs(bottomPosition) >= bottomRowRef.current.scrollWidth / 2) {
-          bottomPosition = 0
-        }
-        bottomRowRef.current.style.transform = `translateX(${bottomPosition}px)`
+        bottomPosition -= 0.65;
+        if (Math.abs(bottomPosition) >= bottomRowRef.current.scrollWidth / 2) bottomPosition = 0;
+        bottomRowRef.current.style.transform = `translateX(${bottomPosition}px)`;
       }
-      bottomAnimationId = requestAnimationFrame(animateBottomRow)
-    }
-    topAnimationId = requestAnimationFrame(animateTopRow)
-    bottomAnimationId = requestAnimationFrame(animateBottomRow)
+      bottomAnimationId = requestAnimationFrame(animateBottomRow);
+    };
+
+    topAnimationId = requestAnimationFrame(animateTopRow);
+    bottomAnimationId = requestAnimationFrame(animateBottomRow);
+
     return () => {
-      cancelAnimationFrame(topAnimationId)
-      cancelAnimationFrame(bottomAnimationId)
-    }
-  }, [])
+      cancelAnimationFrame(topAnimationId);
+      cancelAnimationFrame(bottomAnimationId);
+    };
+  }, []);
 
   // @return
   return (
