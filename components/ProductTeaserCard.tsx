@@ -99,7 +99,7 @@ export const ProductTeaserCard = (props: ProductTeaserCardProps) => {
                     className="block cursor-pointer text-white border border-slate-400 rounded-full px-3 sm:px-[18px] py-2.5 sm:py-[15px] text-xs sm:text-base leading-4 whitespace-nowrap transition-all duration-150 ease-[cubic-bezier(0.455,0.03,0.515,0.955)] hover:rounded-2xl hover:bg-slate-700/50"
                   >
                     {secondaryButtonText}
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
