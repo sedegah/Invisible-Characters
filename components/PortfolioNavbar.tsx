@@ -18,6 +18,10 @@ const navigationLinks = [
     href: "/unicode-scanner",
   },
   {
+    name: "Code Comparator",
+    href: "/code-comparator",
+  },
+  {
     name: "Docs",
     href: "/docs",
   },
