@@ -26,6 +26,13 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Invisible Characters",
   description: "Detect and remove invisible Unicode characters from your text",
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 5,
+    userScalable: true,
+    viewportFit: "cover",
+  },
   icons: {
     icon: [
       {
@@ -34,6 +41,14 @@ export const metadata: Metadata = {
       },
     ],
     apple: "/favicon.png",
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Invisible Characters",
+  },
+  formatDetection: {
+    telephone: false,
   },
 }
 
