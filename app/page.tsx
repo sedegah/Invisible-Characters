@@ -9,7 +9,10 @@ export default function Page() {
   return (
     <>
       <PortfolioNavbar />
-      <ProductTeaserCard />
+      <ProductTeaserCard 
+        primaryButtonHref="/unicode-scanner"
+        secondaryButtonHref="/code-comparator"
+      />
       <FAQSection />
       <Footer />
     </>
