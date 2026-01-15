@@ -117,7 +117,7 @@ export const ProductTeaserCard = (props: ProductTeaserCardProps) => {
               ease: [0.645, 0.045, 0.355, 1],
               delay: 0.2,
             }}
-            className="col-span-12 lg:col-span-6 grid grid-cols-2 gap-2 sm:gap-4 aspect-square"
+            className="hidden lg:grid col-span-12 lg:col-span-6 grid grid-cols-2 gap-2 sm:gap-4 aspect-square"
           >
             {/* Feature Card 1 */}
             <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl sm:rounded-[40px] p-4 sm:p-8 border border-slate-700 flex flex-col justify-between">

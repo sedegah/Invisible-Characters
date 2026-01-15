@@ -13,7 +13,9 @@ export default function Page() {
         primaryButtonHref="/unicode-scanner"
         secondaryButtonHref="/code-comparator"
       />
-      <FAQSection />
+      <div className="hidden md:block">
+        <FAQSection />
+      </div>
       <Footer />
     </>
   )
