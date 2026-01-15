@@ -632,7 +632,7 @@ export default function UnicodeScannerContent() {
               <div className="p-4 bg-amber-500/10 border border-amber-500/30 rounded-lg">
                 <p className="text-xs text-amber-700 dark:text-amber-300 flex items-start gap-2">
                   <AlertCircle size={16} className="mt-0.5 flex-shrink-0" />
-                  <span><strong>⚠️ Note:</strong> The cleaned document will have invisible and suspicious characters removed, but some formatting details (colors, fonts, exact spacing) may not be perfectly preserved in the output.</span>
+                  <span><strong>⚠️ Note:</strong> Full document preservation is still under development. The cleaned document will have invisible and suspicious characters removed, but complete formatting preservation is not yet available.</span>
                 </p>
               </div>
             </div>
