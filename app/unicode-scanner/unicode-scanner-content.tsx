@@ -1,9 +1,10 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { Copy, Download, Search, RotateCcw } from "lucide-react"
+import { useState, useEffect, useRef } from "react"
+import { Copy, Download, Search, RotateCcw, Upload, FileText, X, AlertCircle } from "lucide-react"
 import { PortfolioNavbar } from "@/components/PortfolioNavbar"
 import { detectInvisibleCharacters, getCharacterDetails, generateHighlightedText, type DetectedChar } from "@/lib/unicode-engine"
+import { parseDocxFile, createCleanedDocx, isValidDocxFile, formatFileSize, type DocxAnalysisResult } from "@/lib/docx-processor"
 
 interface UnicodeInfo {
   char: string
@@ -24,6 +25,11 @@ export default function UnicodeScannerContent() {
   const [detectedInvisible, setDetectedInvisible] = useState<DetectedChar[]>([])
   const [highlightedText, setHighlightedText] = useState("")
   const [cleanedText, setCleanedText] = useState("")
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null)
+  const [isProcessingFile, setIsProcessingFile] = useState(false)
+  const [docxAnalysis, setDocxAnalysis] = useState<DocxAnalysisResult | null>(null)
+  const [fileError, setFileError] = useState<string | null>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   // Load history from localStorage
   useEffect(() => {
@@ -180,6 +186,80 @@ export default function UnicodeScannerContent() {
     a.click()
   }
 
+  // Handle file upload
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (!file) return
+
+    setFileError(null)
+
+    // Validate file type
+    if (!isValidDocxFile(file)) {
+      setFileError("Please upload a valid .docx file")
+      return
+    }
+
+    // Validate file size (max 10MB)
+    if (file.size > 10 * 1024 * 1024) {
+      setFileError("File size must be less than 10MB")
+      return
+    }
+
+    setUploadedFile(file)
+    setIsProcessingFile(true)
+
+    try {
+      const analysis = await parseDocxFile(file)
+      setDocxAnalysis(analysis)
+      setInputText(analysis.originalText)
+      analyzeText(analysis.originalText)
+    } catch (error) {
+      setFileError(error instanceof Error ? error.message : "Failed to process file")
+      setUploadedFile(null)
+    } finally {
+      setIsProcessingFile(false)
+    }
+  }
+
+  // Clear file upload
+  const clearFileUpload = () => {
+    setUploadedFile(null)
+    setDocxAnalysis(null)
+    setFileError(null)
+    setInputText("")
+    setCharacters([])
+    setSelectedChar(null)
+    setDetectedInvisible([])
+    setHighlightedText("")
+    setCleanedText("")
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ""
+    }
+  }
+
+  // Download cleaned DOCX
+  const downloadCleanedDocx = async () => {
+    if (!uploadedFile || !docxAnalysis) return
+
+    try {
+      const blob = await createCleanedDocx(
+        uploadedFile,
+        docxAnalysis.cleanedText,
+        docxAnalysis.fileName
+      )
+
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement("a")
+      a.href = url
+      a.download = docxAnalysis.fileName.replace('.docx', '_cleaned.docx')
+      a.click()
+      window.URL.revokeObjectURL(url)
+    } catch (error) {
+      console.error('Error downloading cleaned document:', error)
+      setFileError("Failed to create cleaned document")
+    }
+  }
+
   const filtered = searchCharacters(searchQuery)
 
   return (
@@ -214,6 +294,7 @@ export default function UnicodeScannerContent() {
                 }}
                 placeholder="Paste or type any text here..."
                 className="w-full h-32 bg-muted border border-border rounded-lg px-4 py-3 text-foreground placeholder-foreground/40 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/30 resize-none"
+                disabled={isProcessingFile}
               />
             </div>
 
@@ -244,6 +325,11 @@ export default function UnicodeScannerContent() {
                     const isZeroWidthJoiner = char.codePoint === 0x200d
                     const isZeroWidthNonJoiner = char.codePoint === 0x200c
                     
+                    // Check if this character exists in docxAnalysis
+                    const docxChar = docxAnalysis?.detectedCharacters.find(
+                      c => c.codePoint === char.codePoint
+                    )
+                    
                     return (
                       <div
                         key={idx}
@@ -262,6 +348,11 @@ export default function UnicodeScannerContent() {
                         <div className="text-xs text-foreground/60 space-y-0.5">
                           <div>Code Point: U+{char.codePoint.toString(16).toUpperCase().padStart(4, "0")}</div>
                           <div>Decimal: {char.codePoint}</div>
+                          {docxChar && (
+                            <div className="text-primary font-semibold mt-1">
+                              Occurrences: {docxChar.count}
+                            </div>
+                          )}
                         </div>
                       </div>
                     )
@@ -312,6 +403,7 @@ export default function UnicodeScannerContent() {
                       setHighlightedText("")
                       setCleanedText("")
                       setCopied(false)
+                      clearFileUpload()
                     }}
                     className="flex items-center gap-2 px-3 py-1.5 bg-muted hover:bg-muted/80 text-foreground rounded-lg transition-colors border border-border"
                   >
@@ -457,6 +549,95 @@ export default function UnicodeScannerContent() {
             </div>
           </div>
         )}
+
+        {/* Document Upload Section */}
+        <div className="mt-12 bg-card border border-border rounded-xl p-6">
+          <div className="flex items-center gap-2 mb-4">
+            <FileText size={24} className="text-foreground" />
+            <h2 className="text-2xl font-semibold text-foreground">Upload & Analyze Documents</h2>
+          </div>
+          <p className="text-foreground/70 mb-6">Upload a .docx file to automatically scan for invisible and suspicious characters while preserving document structure.</p>
+
+          {/* Upload Area */}
+          <div
+            className="mb-6 p-8 border-2 border-dashed border-primary/30 rounded-lg bg-primary/5 cursor-pointer hover:bg-primary/10 hover:border-primary/50 transition-all"
+            onClick={() => fileInputRef.current?.click()}
+          >
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".docx"
+              onChange={handleFileUpload}
+              className="hidden"
+            />
+
+            <div className="flex flex-col items-center justify-center">
+              <Upload size={40} className="text-primary mb-3" />
+              <p className="text-lg font-semibold text-foreground mb-1">Click to upload or drag and drop</p>
+              <p className="text-sm text-foreground/60">DOCX files up to 10MB</p>
+            </div>
+          </div>
+
+          {/* Processing State */}
+          {isProcessingFile && (
+            <div className="p-4 bg-blue-500/10 border border-blue-500/30 rounded-lg mb-4">
+              <p className="text-blue-600 dark:text-blue-400 flex items-center gap-2">
+                <span className="inline-block w-2 h-2 bg-blue-600 dark:bg-blue-400 rounded-full animate-pulse"></span>
+                Processing document...
+              </p>
+            </div>
+          )}
+
+          {/* Error State */}
+          {fileError && (
+            <div className="p-4 bg-destructive/10 border border-destructive/30 rounded-lg mb-4 flex items-start gap-3">
+              <AlertCircle size={20} className="text-destructive mt-0.5 flex-shrink-0" />
+              <p className="text-destructive text-sm">{fileError}</p>
+            </div>
+          )}
+
+          {/* File Uploaded State */}
+          {uploadedFile && !isProcessingFile && (
+            <div className="p-4 bg-green-500/10 border border-green-500/30 rounded-lg mb-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <FileText size={20} className="text-green-600 dark:text-green-400" />
+                  <div>
+                    <p className="text-green-600 dark:text-green-400 font-semibold">{uploadedFile.name}</p>
+                    <p className="text-xs text-foreground/60">{formatFileSize(uploadedFile.size)}</p>
+                  </div>
+                </div>
+                <button
+                  onClick={clearFileUpload}
+                  className="p-2 hover:bg-red-500/20 rounded-lg transition-colors text-red-600 dark:text-red-400"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Download Cleaned Document Button */}
+          {docxAnalysis && uploadedFile && !isProcessingFile && (
+            <div className="space-y-3">
+              <button
+                onClick={downloadCleanedDocx}
+                className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-green-600/20 hover:bg-green-600/30 text-green-600 dark:text-green-400 rounded-lg transition-colors font-semibold border border-green-500/30"
+              >
+                <Download size={18} />
+                Download Cleaned Document
+              </button>
+
+              {/* Disclaimer */}
+              <div className="p-4 bg-amber-500/10 border border-amber-500/30 rounded-lg">
+                <p className="text-xs text-amber-700 dark:text-amber-300 flex items-start gap-2">
+                  <AlertCircle size={16} className="mt-0.5 flex-shrink-0" />
+                  <span><strong>⚠️ Note:</strong> The cleaned document will have invisible and suspicious characters removed, but some formatting details (colors, fonts, exact spacing) may not be perfectly preserved in the output.</span>
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   )
