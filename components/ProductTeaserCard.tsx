@@ -37,7 +37,7 @@ export const ProductTeaserCard = (props: ProductTeaserCardProps) => {
               duration: 0.8,
               ease: [0.645, 0.045, 0.355, 1],
             }}
-            className="col-span-12 lg:col-span-6 bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl sm:rounded-[40px] p-6 sm:p-12 lg:p-16 flex flex-col justify-end aspect-square overflow-hidden relative border border-slate-700"
+            className="col-span-12 lg:col-span-6 bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl sm:rounded-[40px] p-6 sm:p-12 lg:p-16 pt-12 sm:pt-16 lg:pt-20 flex flex-col justify-end aspect-square overflow-hidden relative border border-slate-700"
           >
             <div className="absolute inset-0 opacity-10">
               <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl"></div>
