@@ -59,7 +59,7 @@ export const ProductTeaserCard = (props: ProductTeaserCardProps) => {
                   ease: [0.645, 0.045, 0.355, 1],
                   delay: 0.3,
                 }}
-                className="flex gap-2 mb-6 sm:mb-8"
+                className="flex gap-2 mb-8 sm:mb-7"
               >
                 <Shield className="w-5 h-5 sm:w-6 sm:h-6 text-cyan-400" />
                 <GitCompare className="w-5 h-5 sm:w-6 sm:h-6 text-blue-400" />
