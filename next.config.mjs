@@ -2,12 +2,7 @@
 const nextConfig = {
   // TypeScript configuration
   typescript: {
-    ignoreBuildErrors: false, // Changed to false for better type safety
-  },
-  
-  // ESLint configuration
-  eslint: {
-    ignoreDuringBuilds: false,
+    ignoreBuildErrors: false,
   },
 
   // Image optimization
@@ -32,7 +27,6 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   reactStrictMode: true,
-  swcMinify: true,
 
   // Experimental features for better performance
   experimental: {
@@ -46,17 +40,13 @@ const nextConfig = {
     },
   },
 
-  // Webpack optimizations
-  webpack: (config, { isServer }) => {
-    if (!isServer) {
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
-        fs: false,
-        net: false,
-        tls: false,
-      };
-    }
-    return config;
+  // Turbopack configuration (Next.js 16+)
+  turbopack: {
+    resolveAlias: {
+      fs: false,
+      net: false,
+      tls: false,
+    },
   },
 };
 
