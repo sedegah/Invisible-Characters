@@ -124,10 +124,10 @@ Ensure documents are clean before:
 - Submitting to systems that reject special characters
 
 ## Browser Compatibility
-- Chrome/Edge: ✅ Full support
-- Firefox: ✅ Full support
-- Safari: ✅ Full support
-- Mobile browsers: ✅ Supported (with file picker)
+- Chrome/Edge:  Full support
+- Firefox:  Full support
+- Safari:  Full support
+- Mobile browsers:  Supported (with file picker)
 
 ## Future Enhancements
 Potential improvements for future versions:
