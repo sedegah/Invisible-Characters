@@ -41,13 +41,7 @@ const nextConfig = {
   },
 
   // Turbopack configuration (Next.js 16+)
-  turbopack: {
-    resolveAlias: {
-      fs: false,
-      net: false,
-      tls: false,
-    },
-  },
+  turbopack: {},
 };
 
 export default nextConfig;
