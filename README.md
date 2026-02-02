@@ -7,7 +7,7 @@ A powerful web application for detecting invisible Unicode characters and compar
 ### Unicode Scanner
 Detect and remove invisible and suspicious Unicode characters from text including:
 - Zero-width spaces and joiners
-- Bidirectional control characters
+- Bidirectional control characters 
 - Non-breaking spaces
 - Format control characters
 - Byte order marks
