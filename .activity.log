@@ -37,3 +37,4 @@
 // Improve scanner edge-case handling – 1770237794
 // Optimize text comparison performance – 1770237795
 // Enhance language auto-detection – 1770237795
+// Improve UI feedback for hidden chars – 1770237795
