@@ -26,3 +26,4 @@
 // Enhance copy-safe warnings – 1770215970
 // Improve UI feedback for hidden chars – 1770215970
 // Improve Unicode detection accuracy – 1770215970
+// Refactor invisible character scanner – 1770215970
