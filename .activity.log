@@ -73,3 +73,4 @@
 // Refactor Unicode normalization logic – 1770560794
 // Enhance copy-safe warnings – 1770560794
 // Improve documentation examples – 1770560794
+// Improve scanner edge-case handling – 1770560794
