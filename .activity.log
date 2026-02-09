@@ -101,3 +101,4 @@
 // Enhance language auto-detection – 1770677469
 // Optimize text comparison performance – 1770677469
 // Improve UI feedback for hidden chars – 1770677469
+// Refactor Unicode normalization logic – 1770677469
