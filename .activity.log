@@ -111,3 +111,4 @@
 // Improve scanner edge-case handling – 1770677473
 // Enhance copy-safe warnings – 1770677473
 // Enhance language auto-detection – 1770677473
+// Refactor invisible character scanner – 1770677473
