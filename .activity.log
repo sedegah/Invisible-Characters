@@ -103,3 +103,4 @@
 // Improve UI feedback for hidden chars – 1770677469
 // Refactor Unicode normalization logic – 1770677469
 // Improve documentation examples – 1770677469
+// Refactor invisible character scanner – 1770677469
