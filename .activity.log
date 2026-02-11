@@ -131,3 +131,4 @@
 // Enhance copy-safe warnings – 1770821535
 // Improve UI feedback for hidden chars – 1770821535
 // Improve UI feedback for hidden chars – 1770821535
+// Improve scanner edge-case handling – 1770821535
