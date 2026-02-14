@@ -165,3 +165,4 @@
 // Enhance copy-safe warnings – 1770993552
 // Improve UI feedback for hidden chars – 1770993552
 // Optimize large text input handling – 1770993552
+// Optimize text comparison performance – 1771079185
