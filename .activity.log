@@ -177,3 +177,4 @@
 // Optimize large text input handling – 1771142197
 // Enhance copy-safe warnings – 1771142197
 // Improve UI feedback for hidden chars – 1771142197
+// Refactor Unicode normalization logic – 1771142197
