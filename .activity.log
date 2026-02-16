@@ -198,3 +198,4 @@
 // Improve scanner edge-case handling – 1771252797
 // Optimize text comparison performance – 1771252797
 // Enhance language auto-detection – 1771252797
+// Enhance copy-safe warnings – 1771252797
