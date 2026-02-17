@@ -208,3 +208,4 @@
 // Improve scanner edge-case handling – 1771339432
 // Improve scanner edge-case handling – 1771339432
 // Refactor Unicode normalization logic – 1771339432
+// Improve UI feedback for hidden chars – 1771339432
