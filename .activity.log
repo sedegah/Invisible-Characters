@@ -214,3 +214,4 @@
 // Refactor Unicode normalization logic – 1771339432
 // Refactor Unicode normalization logic – 1771339432
 // Improve scanner edge-case handling – 1771339432
+// Enhance copy-safe warnings – 1771425769
