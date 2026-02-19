@@ -12,6 +12,14 @@ export interface DetectedChar {
 
 const invisibleMap: Record<number, string> = {
   0x0000: "NULL (␀)",
+  0x0008: "BACKSPACE (BS)",
+  0x0009: "TAB (→)",
+  0x000b: "VERTICAL TAB (VT)",
+  0x000c: "FORM FEED (FF)",
+  0x001c: "FILE SEPARATOR (FS)",
+  0x001d: "GROUP SEPARATOR (GS)",
+  0x001e: "RECORD SEPARATOR (RS)",
+  0x001f: "UNIT SEPARATOR (US)",
   0x00a0: "NON-BREAKING SPACE (NBSP)",
   0x00ad: "SOFT HYPHEN (SHY)",
   0x034f: "COMBINING GRAPHEME JOINER (CGJ)",
@@ -169,6 +177,8 @@ export const getCharacterDetails = (text: string) => {
         : commonWhitespaceMap[codePoint]
           ? "Common Whitespace"
           : "Printable",
+      name: invisibleMap[codePoint] || (isInvisible ? "CONTROL CHARACTER" : "REGULAR CHARACTER"),
+      category: isInvisible ? "Control/Format" : "Printable",
       isInvisible,
     })
 
