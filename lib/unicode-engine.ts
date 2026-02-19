@@ -7,6 +7,7 @@ export interface DetectedChar {
   char: string
   codePoint: number
   name: string
+  category?: string
 }
 
 const invisibleMap: Record<number, string> = {
@@ -78,6 +79,13 @@ const invisibleMap: Record<number, string> = {
   0xfffc: "OBJECT REPLACEMENT CHARACTER (OBJ)",
 }
 
+const commonWhitespaceMap: Record<number, string> = {
+  0x0009: "TAB (→)",
+  0x000a: "LINE FEED (↵)",
+  0x000d: "CARRIAGE RETURN (⏎)",
+  0x0020: "SPACE (•)",
+}
+
 const isSuspiciousControlCharacter = (codePoint: number) => {
   if (codePoint >= 0x007f && codePoint <= 0x009f) {
     return true
@@ -108,6 +116,7 @@ export const detectInvisibleCharacters = (text: string) => {
         char: chars,
         codePoint,
         name: invisibleMap[codePoint] || "CONTROL CHARACTER",
+        category: "Suspicious",
       })
     }
     i += charCount - 1
@@ -159,6 +168,15 @@ export const getCharacterDetails = (text: string) => {
       char: chars,
       codePoint,
       codePointHex: `U+${codePoint.toString(16).toUpperCase().padStart(4, "0")}`,
+      name:
+        invisibleMap[codePoint] ||
+        commonWhitespaceMap[codePoint] ||
+        (isInvisible ? "CONTROL CHARACTER" : "REGULAR CHARACTER"),
+      category: isInvisible
+        ? "Suspicious"
+        : commonWhitespaceMap[codePoint]
+          ? "Common Whitespace"
+          : "Printable",
       name: invisibleMap[codePoint] || (isInvisible ? "CONTROL CHARACTER" : "REGULAR CHARACTER"),
       category: isInvisible ? "Control/Format" : "Printable",
       isInvisible,
