@@ -232,3 +232,4 @@
 // Refactor Unicode normalization logic – 1771512333
 // Enhance copy-safe warnings – 1771512333
 // Improve Unicode detection accuracy – 1771512333
+// Optimize text comparison performance – 1771512333
