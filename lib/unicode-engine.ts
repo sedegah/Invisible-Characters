@@ -4,12 +4,10 @@
 ------------------------------------ */
 
 export interface DetectedChar {
-  char: string;
-  codePoint: number;
-  name: string;
-  category?: string;
-  index?: number;
-  length?: number;
+  char: string
+  codePoint: number
+  name: string
+  category?: string
 }
 
 const invisibleMap: Record<number, string> = {
@@ -71,30 +69,26 @@ const invisibleMap: Record<number, string> = {
   0xfeff: "BYTE ORDER MARK (BOM)",
   0xffa0: "HALFWIDTH HANGUL FILLER (HWHF)",
   0xfffc: "OBJECT REPLACEMENT CHARACTER (OBJ)",
-};
+}
 
 const commonWhitespaceMap: Record<number, string> = {
   0x0009: "TAB (→)",
   0x000a: "LINE FEED (↵)",
   0x000d: "CARRIAGE RETURN (⏎)",
   0x0020: "SPACE (•)",
-};
+}
 
 const isSuspiciousControlCharacter = (codePoint: number) => {
   if (codePoint >= 0x007f && codePoint <= 0x009f) {
-    return true;
+    return true
   }
 
   if (codePoint >= 0x0000 && codePoint <= 0x001f) {
-    return ![0x0009, 0x000a, 0x000d].includes(codePoint);
+    return ![0x0009, 0x000a, 0x000d].includes(codePoint)
   }
 
-  return false;
-};
-
-const isSuspiciousCodePoint = (codePoint: number) => {
-  return !!invisibleMap[codePoint] || isSuspiciousControlCharacter(codePoint);
-};
+  return false
+}
 
 /* ------------------------------------
    Main detection function with proper cleanup
@@ -104,22 +98,17 @@ export const detectInvisibleCharacters = (text: string) => {
   let cleanedText = "";
 
   for (let i = 0; i < text.length; i++) {
-    const codePoint = text.codePointAt(i)!;
-    const charCount = codePoint > 0xffff ? 2 : 1;
-    const chars = text.slice(i, i + charCount);
-    const isSuspicious = isSuspiciousCodePoint(codePoint);
+    const codePoint = text.codePointAt(i)!
+    const charCount = codePoint > 0xffff ? 2 : 1
+    const chars = text.slice(i, i + charCount)
 
-    if (isSuspicious) {
+    if (invisibleMap[codePoint] || isSuspiciousControlCharacter(codePoint)) {
       characters.push({
         char: chars,
         codePoint,
         name: invisibleMap[codePoint] || "CONTROL CHARACTER",
         category: "Suspicious",
-        index: i,
-        length: charCount,
-      });
-    } else {
-      cleanedText += chars;
+      })
     }
 
     i += charCount - 1;
@@ -143,10 +132,10 @@ export const getCharacterDetails = (text: string) => {
   }> = [];
 
   for (let i = 0; i < text.length; i++) {
-    const codePoint = text.codePointAt(i)!;
-    const charCount = codePoint > 0xffff ? 2 : 1;
-    const chars = text.slice(i, i + charCount);
-    const isInvisible = isSuspiciousCodePoint(codePoint);
+    const codePoint = text.codePointAt(i)!
+    const charCount = codePoint > 0xffff ? 2 : 1
+    const chars = text.slice(i, i + charCount)
+    const isInvisible = !!invisibleMap[codePoint] || isSuspiciousControlCharacter(codePoint)
 
     characters.push({
       index: i,
@@ -205,12 +194,13 @@ export const generateHighlightedText = (
 export const aggressiveCleanup = (text: string): string => {
   let cleaned = "";
   for (let i = 0; i < text.length; i++) {
-    const codePoint = text.codePointAt(i)!;
-    const charCount = codePoint > 0xffff ? 2 : 1;
-    const chars = text.slice(i, i + charCount);
+    const codePoint = text.codePointAt(i)!
+    const charCount = codePoint > 0xffff ? 2 : 1
+    const chars = text.slice(i, i + charCount)
 
-    if (!isSuspiciousCodePoint(codePoint)) {
-      cleaned += chars;
+    // Check if it's in our invisible map
+    if (!invisibleMap[codePoint] && !isSuspiciousControlCharacter(codePoint)) {
+      cleaned += chars
     }
     i += charCount - 1;
   }
