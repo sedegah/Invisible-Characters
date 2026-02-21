@@ -245,3 +245,4 @@
 // Improve Unicode detection accuracy – 1771598282
 // Improve UI feedback for hidden chars – 1771598282
 // Improve UI feedback for hidden chars – 1771683961
+// Improve scanner edge-case handling – 1771683961
