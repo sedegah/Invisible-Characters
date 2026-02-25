@@ -291,3 +291,4 @@
 // Enhance copy-safe warnings – 1772030885
 // Enhance copy-safe warnings – 1772030885
 // Improve UI feedback for hidden chars – 1772030885
+// Improve Unicode detection accuracy – 1772030886
