@@ -316,3 +316,4 @@
 // Improve Unicode detection accuracy – 1772203067
 // Refactor Unicode normalization logic – 1772203067
 // Refactor Unicode normalization logic – 1772203068
+// Improve UI feedback for hidden chars – 1772203068
