@@ -325,3 +325,4 @@
 // Improve UI feedback for hidden chars – 1772203068
 // Refactor Unicode normalization logic – 1772288484
 // Improve scanner edge-case handling – 1772288484
+// Enhance language auto-detection – 1772288484
