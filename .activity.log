@@ -358,3 +358,4 @@
 // Enhance copy-safe warnings – 1772548903
 // Improve scanner edge-case handling – 1772548903
 // Improve scanner edge-case handling – 1772548903
+// Refactor invisible character scanner – 1772548904
