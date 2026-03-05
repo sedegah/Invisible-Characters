@@ -382,3 +382,4 @@
 // Improve scanner edge-case handling – 1772721771
 // Improve UI feedback for hidden chars – 1772721771
 // Optimize large text input handling – 1772721771
+// Improve Unicode detection accuracy – 1772721771
