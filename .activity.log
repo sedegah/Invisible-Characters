@@ -374,3 +374,4 @@
 // Improve scanner edge-case handling – 1772635032
 // Refactor invisible character scanner – 1772635032
 // Improve UI feedback for hidden chars – 1772635032
+// Enhance language auto-detection – 1772721771
