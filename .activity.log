@@ -413,3 +413,4 @@
 // Refactor Unicode normalization logic – 1772979867
 // Enhance language auto-detection – 1772979867
 // Improve scanner edge-case handling – 1772979867
+// Refactor invisible character scanner – 1772979867
