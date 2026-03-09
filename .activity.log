@@ -421,3 +421,4 @@
 // Improve scanner edge-case handling – 1773067816
 // Improve Unicode detection accuracy – 1773067816
 // Enhance language auto-detection – 1773067817
+// Enhance copy-safe warnings – 1773067817
