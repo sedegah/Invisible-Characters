@@ -417,3 +417,4 @@
 // Enhance copy-safe warnings – 1773067816
 // Improve Unicode detection accuracy – 1773067816
 // Optimize text comparison performance – 1773067816
+// Optimize large text input handling – 1773067816
