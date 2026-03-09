@@ -415,3 +415,4 @@
 // Improve scanner edge-case handling – 1772979867
 // Refactor invisible character scanner – 1772979867
 // Enhance copy-safe warnings – 1773067816
+// Improve Unicode detection accuracy – 1773067816
