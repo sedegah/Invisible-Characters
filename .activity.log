@@ -438,3 +438,4 @@
 // Improve Unicode detection accuracy – 2026-03-11 12:35:30
 // Improve Unicode detection accuracy – 2026-03-12 07:57:58
 // Improve Unicode detection accuracy – 2026-03-12 15:26:38
+// Refactor invisible character scanner – 2026-03-12 17:43:04
