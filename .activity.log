@@ -516,3 +516,4 @@
 // Enhance homoglyph detection logic – 2026-03-23 15:00:00
 // Refactor Unicode normalization pipeline – 2026-03-24 15:00:00
 // Refactor Unicode normalization pipeline – 2026-03-24 15:00:00
+// Optimize invisible character scanning performance – 2026-03-24 15:00:00
