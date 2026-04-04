@@ -584,3 +584,4 @@
 // Improve diff highlighting for hidden characters – 2026-04-03 15:00:00
 // Improve diff highlighting for hidden characters – 2026-04-03 15:00:00
 // Optimize invisible character scanning performance – 2026-04-04 15:00:00
+// Enhance homoglyph detection logic – 2026-04-04 15:00:00
