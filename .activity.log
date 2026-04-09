@@ -597,3 +597,4 @@
 // Improve diff highlighting for hidden characters – 2026-04-09 15:00:00
 // Improve zero-width character detection accuracy – 2026-04-09 15:00:00
 // Improve diff highlighting for hidden characters – 2026-04-09 15:00:00
+// Optimize invisible character scanning performance – 2026-04-09 15:00:00
