@@ -710,3 +710,4 @@
 // Improve zero-width character detection accuracy – 2026-04-30 15:00:00
 // Improve zero-width character detection accuracy – 2026-04-30 15:00:00
 // Improve zero-width character detection accuracy – 2026-05-01 15:00:00
+// Optimize invisible character scanning performance – 2026-05-01 15:00:00
