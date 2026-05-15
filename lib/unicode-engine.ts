@@ -94,10 +94,9 @@ const isSuspiciousControlCharacter = (codePoint: number) => {
    Main detection function with proper cleanup
 ------------------------------------ */
 export const detectInvisibleCharacters = (text: string) => {
-  const characters: DetectedChar[] = []
-  const charsToRemove = new Set<string>()
+  const characters: DetectedChar[] = [];
+  let cleanedText = "";
 
-  // First pass: detect all invisible characters
   for (let i = 0; i < text.length; i++) {
     const codePoint = text.codePointAt(i)!
     const charCount = codePoint > 0xffff ? 2 : 1
@@ -111,43 +110,26 @@ export const detectInvisibleCharacters = (text: string) => {
         category: "Suspicious",
       })
     }
-    i += charCount - 1
+
+    i += charCount - 1;
   }
 
-  // Build a set of characters to remove (by their string representation)
-  characters.forEach((char) => {
-    charsToRemove.add(char.char)
-  })
-
-  // Second pass: rebuild text, removing all invisible characters
-  let cleanedText = ""
-  for (let i = 0; i < text.length; i++) {
-    const codePoint = text.codePointAt(i)!
-    const charCount = codePoint > 0xffff ? 2 : 1
-    const chars = text.slice(i, i + charCount)
-
-    if (!charsToRemove.has(chars)) {
-      cleanedText += chars
-    }
-    i += charCount - 1
-  }
-
-  return { characters, cleanedText }
-}
+  return { characters, cleanedText };
+};
 
 /* ------------------------------------
    Get detailed information about characters
 ------------------------------------ */
 export const getCharacterDetails = (text: string) => {
   const characters: Array<{
-    index: number
-    char: string
-    codePoint: number
-    codePointHex: string
-    name: string
-    category: string
-    isInvisible: boolean
-  }> = []
+    index: number;
+    char: string;
+    codePoint: number;
+    codePointHex: string;
+    name: string;
+    category: string;
+    isInvisible: boolean;
+  }> = [];
 
   for (let i = 0; i < text.length; i++) {
     const codePoint = text.codePointAt(i)!
@@ -170,34 +152,47 @@ export const getCharacterDetails = (text: string) => {
           ? "Common Whitespace"
           : "Printable",
       isInvisible,
-    })
+    });
 
-    i += charCount - 1
+    i += charCount - 1;
   }
 
-  return characters
-}
+  return characters;
+};
 
 /* ------------------------------------
    Generate highlighted text with markers
 ------------------------------------ */
-export const generateHighlightedText = (text: string, detectedChars: DetectedChar[]): string => {
-  let highlighted = ""
+export const generateHighlightedText = (
+  text: string,
+  detectedChars: DetectedChar[],
+): string => {
+  const suspiciousIndexes = new Set<number>();
+
+  detectedChars.forEach((char) => {
+    if (typeof char.index === "number") {
+      suspiciousIndexes.add(char.index);
+    }
+  });
+
+  let highlighted = "";
   for (let i = 0; i < text.length; i++) {
-    const codePoint = text.codePointAt(i)!
-    const charCount = codePoint > 0xffff ? 2 : 1
-    const chars = text.slice(i, i + charCount)
-    highlighted += detectedChars.find((c) => c.char === chars) ? "⦿" : chars
-    i += charCount - 1
+    const codePoint = text.codePointAt(i)!;
+    const charCount = codePoint > 0xffff ? 2 : 1;
+    const chars = text.slice(i, i + charCount);
+
+    highlighted += suspiciousIndexes.has(i) ? "⦿" : chars;
+    i += charCount - 1;
   }
-  return highlighted
-}
+
+  return highlighted;
+};
 
 /* ------------------------------------
    Aggressive cleanup - removes all control and formatting chars
 ------------------------------------ */
 export const aggressiveCleanup = (text: string): string => {
-  let cleaned = ""
+  let cleaned = "";
   for (let i = 0; i < text.length; i++) {
     const codePoint = text.codePointAt(i)!
     const charCount = codePoint > 0xffff ? 2 : 1
@@ -207,7 +202,7 @@ export const aggressiveCleanup = (text: string): string => {
     if (!invisibleMap[codePoint] && !isSuspiciousControlCharacter(codePoint)) {
       cleaned += chars
     }
-    i += charCount - 1
+    i += charCount - 1;
   }
-  return cleaned
-}
+  return cleaned;
+};
