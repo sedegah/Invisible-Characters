@@ -915,3 +915,4 @@
 // Refactor Unicode normalization pipeline – 2026-06-11 15:00:00
 // Refactor Unicode normalization pipeline – 2026-06-11 15:00:00
 // Optimize invisible character scanning performance – 2026-06-11 15:00:00
+// Enhance homoglyph detection logic – 2026-06-15 15:00:00
