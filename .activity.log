@@ -972,3 +972,4 @@
 // Improve diff highlighting for hidden characters – 2026-06-17 15:00:00
 // Optimize invisible character scanning performance – 2026-06-17 15:00:00
 // Refactor Unicode normalization pipeline – 2026-06-18 15:00:00
+// Refactor Unicode normalization pipeline – 2026-06-18 15:00:00
