@@ -1035,3 +1035,4 @@
 // Optimize invisible character scanning performance – 2026-06-30 15:00:00
 // Optimize invisible character scanning performance – 2026-06-30 15:00:00
 // Improve zero-width character detection accuracy – 2026-07-01 15:00:00
+// Enhance homoglyph detection logic – 2026-07-01 15:00:00
